@@ -1,17 +1,20 @@
 import { useState, useEffect } from 'react'
-import { Plus, Heart } from 'lucide-react'
+import { Plus, Heart, Trash2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import Avatar from '../components/ui/Avatar'
 import Modal from '../components/ui/Modal'
-import Button from '../components/ui/Button'
+import { Button } from '../components/ui/Button'
 import { Textarea } from '../components/ui/Input'
 import { PostSkeleton } from '../components/ui/SkeletonLoader'
+import PageWrapper from '../components/layout/PageWrapper'
 import {
   subscribeSuccessStories, createSuccessStory,
   toggleLikeStory, deleteSuccessStory, getUserProfile,
 } from '../firebase/firestore'
 import { useAuth } from '../context/AuthContext'
 import { timeAgo } from '../utils/helpers'
+import { staggerContainer, staggerItem } from '../lib/motion'
 import toast from 'react-hot-toast'
 
 export default function SuccessStories() {
@@ -26,38 +29,42 @@ export default function SuccessStories() {
   }, [])
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="font-display text-2xl font-bold text-white">Success Stories</h1>
-          <p className="text-navy-400 text-sm mt-1">Celebrating wins from your campus community</p>
+    <PageWrapper>
+      <div className="container py-8 max-w-2xl space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">Success Stories</h1>
+            <p className="text-sm text-muted-foreground mt-1">Celebrating wins from your campus community</p>
+          </div>
+          <Button size="sm" onClick={() => setCreateOpen(true)}>
+            <Plus size={14} /> Share Story
+          </Button>
         </div>
-        <Button onClick={() => setCreateOpen(true)} size="sm">
-          <Plus size={15} /> Share Story
-        </Button>
+
+        {loading ? (
+          <div className="space-y-4">{Array.from({ length: 4 }).map((_, i) => <PostSkeleton key={i} />)}</div>
+        ) : stories.length === 0 ? (
+          <div className="text-center py-20 space-y-3">
+            <div className="text-5xl">🌟</div>
+            <h3 className="font-semibold text-foreground text-lg">No stories yet</h3>
+            <p className="text-muted-foreground text-sm">Share your first success story!</p>
+            <Button size="sm" onClick={() => setCreateOpen(true)}><Plus size={14} /> Share Story</Button>
+          </div>
+        ) : (
+          <motion.div variants={staggerContainer} initial="initial" animate="animate" className="space-y-4">
+            {stories.map(story => (
+              <motion.div key={story.id} variants={staggerItem}>
+                <StoryCard story={story} currentUser={user} />
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
+
+        <Modal open={createOpen} onClose={() => setCreateOpen(false)} title="Share a Success Story">
+          <CreateStoryForm onClose={() => setCreateOpen(false)} />
+        </Modal>
       </div>
-
-      {loading ? (
-        <div className="space-y-4">{Array.from({ length: 4 }).map((_, i) => <PostSkeleton key={i} />)}</div>
-      ) : stories.length === 0 ? (
-        <div className="text-center py-16">
-          <div className="text-6xl mb-4">🌟</div>
-          <h3 className="text-white font-semibold">No stories yet</h3>
-          <p className="text-navy-400 text-sm mt-1">Share your first success story!</p>
-          <Button className="mt-4" onClick={() => setCreateOpen(true)}><Plus size={15} /> Share Story</Button>
-        </div>
-      ) : (
-        <div className="space-y-4">
-          {stories.map(story => (
-            <StoryCard key={story.id} story={story} currentUser={user} />
-          ))}
-        </div>
-      )}
-
-      <Modal open={createOpen} onClose={() => setCreateOpen(false)} title="Share a Success Story">
-        <CreateStoryForm onClose={() => setCreateOpen(false)} />
-      </Modal>
-    </div>
+    </PageWrapper>
   )
 }
 
@@ -65,64 +72,53 @@ function StoryCard({ story, currentUser }) {
   const [author, setAuthor] = useState(null)
   const liked = story.likes?.includes(currentUser?.uid)
 
-  useEffect(() => {
-    if (story.authorId) getUserProfile(story.authorId).then(setAuthor)
-  }, [story.authorId])
+  useEffect(() => { if (story.authorId) getUserProfile(story.authorId).then(setAuthor) }, [story.authorId])
 
   async function handleLike() {
     if (!currentUser) return
-    try {
-      await toggleLikeStory(story.id, currentUser.uid, liked)
-    } catch {
-      toast.error('Failed to update like')
-    }
-  }
-
-  async function handleDelete() {
-    if (!confirm('Delete this story?')) return
-    try {
-      await deleteSuccessStory(story.id)
-      toast.success('Story deleted')
-    } catch {
-      toast.error('Failed to delete')
-    }
+    try { await toggleLikeStory(story.id, currentUser.uid, liked) }
+    catch { toast.error('Failed to update') }
   }
 
   return (
-    <div className="bg-navy-900 border border-navy-700 rounded-2xl p-5 space-y-3 animate-fade-in">
+    <motion.div
+      whileHover={{ y: -2 }}
+      transition={{ duration: 0.15 }}
+      className="rounded-xl border border-border/60 bg-card p-5 space-y-3 shadow-card"
+    >
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-3">
           <Link to={`/profile/${story.authorId}`}>
             <Avatar src={author?.photoURL} name={author?.name} size="md" />
           </Link>
           <div>
-            <Link to={`/profile/${story.authorId}`} className="font-semibold text-sm text-white hover:text-teal-400">
+            <Link to={`/profile/${story.authorId}`} className="font-semibold text-sm text-foreground hover:text-primary transition-colors">
               {author?.name}
             </Link>
-            <p className="text-xs text-navy-400">{timeAgo(story.createdAt)}</p>
+            <p className="text-xs text-muted-foreground">{timeAgo(story.createdAt)}</p>
           </div>
         </div>
         {currentUser?.uid === story.authorId && (
-          <button onClick={handleDelete} className="text-xs text-navy-400 hover:text-accent-coral transition-colors">Delete</button>
+          <Button variant="ghost" size="icon-sm" onClick={async () => { if (confirm('Delete?')) { try { await deleteSuccessStory(story.id); toast.success('Deleted') } catch { toast.error('Failed') } } }}>
+            <Trash2 size={13} className="text-muted-foreground hover:text-destructive" />
+          </Button>
         )}
       </div>
 
-      <p className="text-navy-200 text-sm leading-relaxed">{story.content}</p>
+      <p className="text-sm text-foreground/80 leading-relaxed">{story.content}</p>
 
-      <div className="flex items-center gap-2 pt-1">
-        <button
-          onClick={handleLike}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm transition-all ${
-            liked
-              ? 'bg-accent-coral/20 text-accent-coral border border-accent-coral/30'
-              : 'bg-navy-800 text-navy-400 border border-navy-700 hover:text-accent-coral'
-          }`}
-        >
-          <Heart size={14} className={liked ? 'fill-current' : ''} />
-          {story.likes?.length || 0}
-        </button>
-      </div>
-    </div>
+      <button
+        onClick={handleLike}
+        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm transition-all border ${
+          liked
+            ? 'bg-rose-500/15 text-rose-400 border-rose-500/30'
+            : 'bg-muted/40 text-muted-foreground border-border/60 hover:text-rose-400 hover:border-rose-500/30'
+        }`}
+      >
+        <Heart size={13} className={liked ? 'fill-current' : ''} />
+        {story.likes?.length || 0}
+      </button>
+    </motion.div>
   )
 }
 
@@ -133,17 +129,14 @@ function CreateStoryForm({ onClose }) {
 
   async function handleSubmit(e) {
     e.preventDefault()
-    if (!content.trim()) { toast.error('Story content is required'); return }
+    if (!content.trim()) { toast.error('Write your story first'); return }
     setLoading(true)
     try {
       await createSuccessStory({ authorId: user.uid, content: content.trim() })
       toast.success('Story shared!')
       onClose()
-    } catch {
-      toast.error('Failed to share story')
-    } finally {
-      setLoading(false)
-    }
+    } catch { toast.error('Failed') }
+    finally { setLoading(false) }
   }
 
   return (
@@ -153,11 +146,11 @@ function CreateStoryForm({ onClose }) {
         value={content}
         onChange={e => setContent(e.target.value)}
         rows={5}
-        placeholder="Share a win! Found a study partner? Landed an internship? Got help with a tough bug? Tell your campus community..."
+        placeholder="Share a win! Found a study partner? Landed an internship? Tell your campus community..."
         required
       />
-      <div className="flex gap-3 pt-2 border-t border-navy-700">
-        <Button type="button" variant="secondary" className="flex-1" onClick={onClose}>Cancel</Button>
+      <div className="flex gap-3 pt-2 border-t border-border">
+        <Button type="button" variant="outline" className="flex-1" onClick={onClose}>Cancel</Button>
         <Button type="submit" className="flex-1" loading={loading}>Share</Button>
       </div>
     </form>

@@ -20,8 +20,8 @@ function ProtectedRoute({ children }) {
   const { user, loading } = useAuth()
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="w-10 h-10 border-2 border-teal-500/30 border-t-teal-500 rounded-full animate-spin" />
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="w-10 h-10 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
       </div>
     )
   }
@@ -41,17 +41,17 @@ export default function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-navy-950">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
-          <div className="w-12 h-12 border-2 border-teal-500/30 border-t-teal-500 rounded-full animate-spin mx-auto" />
-          <p className="text-navy-400 text-sm mt-3">Loading UniConnect…</p>
+          <div className="w-12 h-12 border-2 border-primary/30 border-t-primary rounded-full animate-spin mx-auto" />
+          <p className="text-muted-foreground text-sm mt-3">Loading UniConnect…</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-navy-950 text-white font-body">
+    <div className="min-h-screen flex flex-col bg-background text-foreground font-sans">
       <Routes>
         {/* Public auth routes — no navbar */}
         <Route path="/login"  element={<PublicRoute><Login /></PublicRoute>} />

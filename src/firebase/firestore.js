@@ -217,6 +217,15 @@ export async function getUserConversations(uid) {
   return snap.docs.map(d => ({ id: d.id, ...d.data() }))
 }
 
+export function subscribeConversations(uid, callback) {
+  const q = query(collection(db, 'messages'), where('participants', 'array-contains', uid))
+  return onSnapshot(q, snap => {
+    const convos = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+    convos.sort((a, b) => (b.lastMessageAt?.seconds || 0) - (a.lastMessageAt?.seconds || 0))
+    callback(convos)
+  })
+}
+
 export function subscribeMessages(convId, callback) {
   const q = query(
     collection(db, `messages/${convId}/msgs`),

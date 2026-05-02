@@ -4,7 +4,7 @@ import { addReply } from '../../firebase/firestore'
 import { useAuth } from '../../context/AuthContext'
 import toast from 'react-hot-toast'
 
-export default function ReplyForm({ postId, authorId }) {
+export default function ReplyForm({ postId }) {
   const { user } = useAuth()
   const [content, setContent] = useState('')
   const [loading, setLoading] = useState(false)
@@ -17,28 +17,24 @@ export default function ReplyForm({ postId, authorId }) {
       await addReply(postId, { authorId: user.uid, content: content.trim() })
       setContent('')
       toast.success('Reply posted!')
-    } catch {
-      toast.error('Failed to post reply')
-    } finally {
-      setLoading(false)
-    }
+    } catch { toast.error('Failed to post reply') }
+    finally { setLoading(false) }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2 mt-3">
+    <form onSubmit={handleSubmit} className="flex gap-2">
       <input
         value={content}
         onChange={e => setContent(e.target.value)}
         placeholder="Write a reply..."
-        className="flex-1 bg-navy-800 border border-navy-700 rounded-xl px-3 py-2 text-sm text-white placeholder-navy-400 focus:outline-none focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500"
+        className="flex-1 h-9 bg-background border border-input rounded-lg px-3 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       />
       <button
         type="submit"
         disabled={loading || !content.trim()}
-        className="p-2 bg-teal-500 hover:bg-teal-400 disabled:opacity-50 rounded-xl text-navy-950 transition-colors"
-        aria-label="Send reply"
+        className="h-9 w-9 flex items-center justify-center bg-primary hover:bg-primary/90 disabled:opacity-50 rounded-lg text-primary-foreground transition-colors shrink-0"
       >
-        <Send size={16} />
+        <Send size={14} />
       </button>
     </form>
   )
