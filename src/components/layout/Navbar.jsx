@@ -1,6 +1,6 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import {
-  Home, Users, HelpCircle, Calendar, GraduationCap,
+  Home, Users, HelpCircle, GraduationCap,
   MessageSquare, Trophy, Star, Settings, LogOut,
   Sun, Moon, Menu,
 } from 'lucide-react'
@@ -18,14 +18,13 @@ import logoSvg from '../../assets/logo.svg'
 import toast from 'react-hot-toast'
 
 const NAV_LINKS = [
-  { to: '/',                label: 'Home',        icon: Home },
-  { to: '/discover',        label: 'Discover',    icon: Users },
-  { to: '/help-board',      label: 'Help Board',  icon: HelpCircle },
-  { to: '/events',          label: 'Events',      icon: Calendar },
-  { to: '/mentorship',      label: 'Mentorship',  icon: GraduationCap },
-  { to: '/messages',        label: 'Messages',    icon: MessageSquare },
-  { to: '/leaderboard',     label: 'Leaderboard', icon: Trophy },
-  { to: '/success-stories', label: 'Stories',     icon: Star },
+  { to: '/',                label: 'Home',         icon: Home },
+  { to: '/discover',        label: 'Discover',     icon: Users },
+  { to: '/help-board',      label: 'Help Board',   icon: HelpCircle },
+  { to: '/masterclasses',   label: 'Masterclasses', icon: GraduationCap },
+  { to: '/messages',        label: 'Messages',     icon: MessageSquare },
+  { to: '/leaderboard',     label: 'Leaderboard',  icon: Trophy },
+  { to: '/success-stories', label: 'Stories',      icon: Star },
 ]
 
 export default function Navbar() {

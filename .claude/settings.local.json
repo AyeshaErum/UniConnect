@@ -6,7 +6,15 @@
       "Bash(npm run *)",
       "Bash(git init *)",
       "Bash(git add *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(node -e \"require\\('pdfjs-dist'\\)\")",
+      "Bash(rm -f \"src/pages/Events.jsx\")",
+      "Bash(rm -f \"src/components/events/EventCard.jsx\")",
+      "Bash(rm -f \"src/components/events/CreateEventForm.jsx\")",
+      "Bash(rmdir \"src/components/events\")",
+      "Bash(node --input-type=module)",
+      "Bash(node -e \"const p = require\\('./node_modules/pdfjs-dist/package.json'\\); console.log\\('pdfjs version:', p.version\\)\")",
+      "Bash(firebase --version)"
     ]
   }
 }

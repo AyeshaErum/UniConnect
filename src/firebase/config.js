@@ -2,6 +2,7 @@ import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
 import { getStorage } from 'firebase/storage'
+import { getAnalytics, isSupported } from 'firebase/analytics'
 
 const firebaseConfig = {
   apiKey:            import.meta.env.VITE_FIREBASE_API_KEY,
@@ -18,4 +19,15 @@ const app = initializeApp(firebaseConfig)
 export const auth    = getAuth(app)
 export const db      = getFirestore(app)
 export const storage = getStorage(app)
+
+// Analytics is browser-only and requires measurementId — guard for SSR/Node envs
+export const analyticsPromise = isSupported().then(yes => {
+  if (yes) {
+    const analytics = getAnalytics(app)
+    console.log('Analytics initialized')
+    return analytics
+  }
+  return null
+})
+
 export default app

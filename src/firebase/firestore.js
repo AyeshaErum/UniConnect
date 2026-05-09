@@ -236,15 +236,24 @@ export function subscribeMessages(convId, callback) {
   )
 }
 
-export async function sendMessage(convId, senderId, content) {
-  await addDoc(collection(db, `messages/${convId}/msgs`), {
+export async function sendMessage(convId, senderId, content, file = null) {
+  const msgData = {
     senderId,
-    content,
+    content:   content || '',
     read:      false,
+    msgType:   file ? file.msgType : 'text',
     createdAt: serverTimestamp(),
-  })
+  }
+  if (file) {
+    msgData.fileUrl  = file.url
+    msgData.fileName = file.name
+    msgData.fileType = file.type
+    msgData.fileSize = file.size
+  }
+
+  await addDoc(collection(db, `messages/${convId}/msgs`), msgData)
   await updateDoc(doc(db, 'messages', convId), {
-    lastMessage:   content,
+    lastMessage:   file ? `📎 ${file.name}` : content,
     lastMessageAt: serverTimestamp(),
     lastSenderId:  senderId,
   })
@@ -311,6 +320,32 @@ export async function toggleLikeStory(storyId, userId, liked) {
 
 export async function deleteSuccessStory(storyId) {
   await deleteDoc(doc(db, 'successStories', storyId))
+}
+
+// ── Masterclasses ──────────────────────────────────────────────────────────
+
+export async function createMasterclass(data) {
+  return addDoc(collection(db, 'masterclasses'), {
+    ...data,
+    scheduledAt: Timestamp.fromDate(data.scheduledAt instanceof Date ? data.scheduledAt : new Date(data.scheduledAt)),
+    createdAt:   serverTimestamp(),
+  })
+}
+
+export function subscribeMasterclasses(callback) {
+  const q = query(collection(db, 'masterclasses'), orderBy('scheduledAt', 'asc'))
+  return onSnapshot(q, snap =>
+    callback(snap.docs.map(d => ({ id: d.id, ...d.data() })))
+  )
+}
+
+export async function deleteMasterclass(classId) {
+  await deleteDoc(doc(db, 'masterclasses', classId))
+}
+
+export async function getTutors() {
+  const snap = await getDocs(query(collection(db, 'users'), where('isTutor', '==', true)))
+  return snap.docs.map(d => ({ id: d.id, ...d.data() }))
 }
 
 // ── Leaderboard ────────────────────────────────────────────────────────────

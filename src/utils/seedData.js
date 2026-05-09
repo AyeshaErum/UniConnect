@@ -9,17 +9,34 @@ const SEED_USERS = [
     name: 'Alex Chen', email: 'alex@university.edu',
     photoURL: 'https://api.dicebear.com/7.x/avataaars/svg?seed=alex',
     bio: 'CS junior passionate about ML and open source. Love helping others debug!',
-    university: 'State University', major: 'Computer Science', year: '3rd Year',
+    university: 'UDST', major: 'Computer Science', year: '3rd Year',
     teachSkills: ['Python', 'Machine Learning', 'React'],
     learnSkills: ['Cybersecurity', 'Cloud'],
     availability: 'Open to mentoring', connections: [],
+    isTutor: true,
+    transcriptData: {
+      cumulativeGPA: 3.92,
+      totalCredits: 75,
+      lastUpdated: new Date().toISOString(),
+      courses: [
+        { courseCode: 'INFS 1101', courseTitle: 'Intro to Computing & Problem Solving', grade: 'A', gradePoints: 4.0, earned: 3 },
+        { courseCode: 'INFS 1201', courseTitle: 'Programming Fundamentals', grade: 'A', gradePoints: 4.0, earned: 3 },
+        { courseCode: 'DACS 2101', courseTitle: 'Data Structures & Algorithms', grade: 'A', gradePoints: 4.0, earned: 3 },
+        { courseCode: 'INFT 2101', courseTitle: 'Computer Networks', grade: 'A-', gradePoints: 3.7, earned: 3 },
+        { courseCode: 'MATH 1101', courseTitle: 'Calculus I', grade: 'B+', gradePoints: 3.5, earned: 3 },
+        { courseCode: 'MATH 2101', courseTitle: 'Linear Algebra', grade: 'B+', gradePoints: 3.5, earned: 3 },
+        { courseCode: 'DACS 3101', courseTitle: 'Machine Learning Fundamentals', grade: 'A', gradePoints: 4.0, earned: 3 },
+        { courseCode: 'INFS 2201', courseTitle: 'Database Systems', grade: 'A-', gradePoints: 3.7, earned: 3 },
+        { courseCode: 'INFT 3101', courseTitle: 'Web Application Development', grade: 'A', gradePoints: 4.0, earned: 3 },
+      ],
+    },
   },
   {
     id: 'seed_priya',
     name: 'Priya Sharma', email: 'priya@university.edu',
     photoURL: 'https://api.dicebear.com/7.x/avataaars/svg?seed=priya',
     bio: 'Design student who loves turning ideas into beautiful products.',
-    university: 'State University', major: 'Design', year: '2nd Year',
+    university: 'UDST', major: 'Design', year: '2nd Year',
     teachSkills: ['UI/UX Design', 'Figma', 'Photography'],
     learnSkills: ['React', 'Web Development'],
     availability: 'Free this evening', connections: [],
@@ -29,7 +46,7 @@ const SEED_USERS = [
     name: 'Marcus Johnson', email: 'marcus@university.edu',
     photoURL: 'https://api.dicebear.com/7.x/avataaars/svg?seed=marcus',
     bio: 'Finance major & hackathon enthusiast. Can help with Excel & financial modeling.',
-    university: 'State University', major: 'Finance', year: '4th Year',
+    university: 'UDST', major: 'Finance', year: '4th Year',
     teachSkills: ['Finance', 'Excel', 'Project Management'],
     learnSkills: ['Python', 'Data Analysis'],
     availability: 'Available weekends', connections: [],
@@ -39,20 +56,51 @@ const SEED_USERS = [
     name: 'Sara El-Amin', email: 'sara@university.edu',
     photoURL: 'https://api.dicebear.com/7.x/avataaars/svg?seed=sara',
     bio: 'PhD candidate in ML. Been there, done that — happy to mentor undergrads.',
-    university: 'State University', major: 'Data Science', year: 'PhD',
+    university: 'UDST', major: 'Data Science', year: 'PhD',
     teachSkills: ['Machine Learning', 'Statistics', 'Research', 'Python'],
     learnSkills: ['Public Speaking', 'Leadership'],
     availability: 'Open to mentoring', connections: [],
+    isTutor: true,
+    transcriptData: {
+      cumulativeGPA: 3.98,
+      totalCredits: 108,
+      lastUpdated: new Date().toISOString(),
+      courses: [
+        { courseCode: 'DACS 2101', courseTitle: 'Data Structures & Algorithms', grade: 'A', gradePoints: 4.0, earned: 3 },
+        { courseCode: 'DACS 3101', courseTitle: 'Machine Learning Fundamentals', grade: 'A', gradePoints: 4.0, earned: 3 },
+        { courseCode: 'DACS 4101', courseTitle: 'Deep Learning', grade: 'A', gradePoints: 4.0, earned: 3 },
+        { courseCode: 'MATH 2101', courseTitle: 'Linear Algebra', grade: 'A', gradePoints: 4.0, earned: 3 },
+        { courseCode: 'MATH 3101', courseTitle: 'Probability & Statistics', grade: 'A', gradePoints: 4.0, earned: 3 },
+        { courseCode: 'INFS 2201', courseTitle: 'Database Systems', grade: 'A-', gradePoints: 3.7, earned: 3 },
+        { courseCode: 'INFS 1101', courseTitle: 'Intro to Computing & Problem Solving', grade: 'A', gradePoints: 4.0, earned: 3 },
+        { courseCode: 'DACS 3201', courseTitle: 'Data Visualization', grade: 'A', gradePoints: 4.0, earned: 3 },
+        { courseCode: 'DACS 4201', courseTitle: 'Natural Language Processing', grade: 'A-', gradePoints: 3.7, earned: 3 },
+        { courseCode: 'INFT 2201', courseTitle: 'Cybersecurity Fundamentals', grade: 'B+', gradePoints: 3.5, earned: 3 },
+      ],
+    },
   },
   {
     id: 'seed_leo',
     name: 'Leo Park', email: 'leo@university.edu',
     photoURL: 'https://api.dicebear.com/7.x/avataaars/svg?seed=leo',
     bio: 'Game dev + CS sophomore. Currently building an indie game in Unity.',
-    university: 'State University', major: 'Software Engineering', year: '2nd Year',
+    university: 'UDST', major: 'Software Engineering', year: '2nd Year',
     teachSkills: ['Game Dev', 'C++', 'JavaScript'],
     learnSkills: ['Mobile Dev', 'UI/UX Design'],
     availability: 'Available for quick help', connections: [],
+    isTutor: true,
+    transcriptData: {
+      cumulativeGPA: 3.55,
+      totalCredits: 42,
+      lastUpdated: new Date().toISOString(),
+      courses: [
+        { courseCode: 'INFS 1101', courseTitle: 'Intro to Computing & Problem Solving', grade: 'A', gradePoints: 4.0, earned: 3 },
+        { courseCode: 'INFS 1201', courseTitle: 'Programming Fundamentals', grade: 'B+', gradePoints: 3.5, earned: 3 },
+        { courseCode: 'MATH 1101', courseTitle: 'Calculus I', grade: 'B', gradePoints: 3.0, earned: 3 },
+        { courseCode: 'DACS 2101', courseTitle: 'Data Structures & Algorithms', grade: 'B+', gradePoints: 3.5, earned: 3 },
+        { courseCode: 'INFT 2101', courseTitle: 'Computer Networks', grade: 'B', gradePoints: 3.0, earned: 3 },
+      ],
+    },
   },
 ]
 
@@ -87,60 +135,56 @@ const SEED_POSTS = [
   },
 ]
 
-const SEED_EVENTS = [
+const SEED_MASTERCLASSES = [
   {
-    creatorId: 'seed_alex',
-    title: 'Weekend Python Study Group',
-    description: 'Weekly meetup to work through Python problems together. All levels welcome!',
-    type: 'Study Group',
-    date: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
-    location: 'Library Room 204',
-    maxParticipants: 10,
-    attendees: ['seed_alex', 'seed_leo'],
+    title: 'Python for Beginners: From Zero to Scripting',
+    instructor: 'Alex Chen',
+    description: 'Start from scratch and write your first Python script in 60 minutes. Covers variables, loops, functions, and file I/O.',
+    googleMeetLink: 'https://meet.google.com/abc-defg-hij',
+    scheduledAt: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+    duration: '60 mins',
+    topic: 'Programming',
+    createdBy: 'seed_alex',
   },
   {
-    creatorId: 'seed_sara',
-    title: 'Intro to Machine Learning Workshop',
-    description: 'Hands-on workshop covering the fundamentals of supervised learning. Bring your laptop.',
-    type: 'Workshop',
-    date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
-    location: 'Engineering Hall B',
-    maxParticipants: 30,
-    attendees: ['seed_sara', 'seed_alex', 'seed_leo', 'seed_marcus'],
+    title: 'Intro to Cybersecurity: Threats & Defenses',
+    instructor: 'Sara El-Amin',
+    description: 'Walk through common attack vectors — phishing, SQL injection, and social engineering — and learn how to defend against them.',
+    googleMeetLink: 'https://meet.google.com/xyz-mnop-qrs',
+    scheduledAt: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000),
+    duration: '90 mins',
+    topic: 'Cybersecurity',
+    createdBy: 'seed_sara',
   },
   {
-    creatorId: 'seed_marcus',
-    title: 'Spring Hackathon 2025',
-    description: '48-hour hackathon open to all majors. Theme: Sustainability Tech. Teams of 2-4.',
-    type: 'Hackathon',
-    date: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
-    location: 'Innovation Center',
-    maxParticipants: 100,
-    attendees: ['seed_marcus', 'seed_alex', 'seed_priya'],
-  },
-]
-
-const SEED_MENTORSHIP = [
-  {
-    mentorId: 'seed_sara',
-    topic: 'Breaking into Machine Learning research',
-    duration: 60,
-    availability: 'Saturdays 2-5pm',
-    status: 'Open', requestedBy: null,
+    title: 'Linear Algebra for Machine Learning',
+    instructor: 'Sara El-Amin',
+    description: 'Matrices, eigenvectors, and why they matter for ML. Practical examples in NumPy.',
+    googleMeetLink: 'https://meet.google.com/lma-trix-ml1',
+    scheduledAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    duration: '60 mins',
+    topic: 'Math',
+    createdBy: 'seed_sara',
   },
   {
-    mentorId: 'seed_alex',
-    topic: 'Getting started with open source contributions',
-    duration: 30,
-    availability: 'Weekday evenings',
-    status: 'Open', requestedBy: null,
+    title: 'Build Your First React App',
+    instructor: 'Leo Park',
+    description: 'Build a todo app step by step — components, state, props, and basic hooks. No prior React experience needed.',
+    googleMeetLink: 'https://meet.google.com/rct-app-001',
+    scheduledAt: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
+    duration: '60 mins',
+    topic: 'Programming',
+    createdBy: 'seed_leo',
   },
   {
-    mentorId: 'seed_marcus',
-    topic: 'Finance interviews and case prep',
-    duration: 60,
-    availability: 'Sunday afternoons',
-    status: 'Booked', requestedBy: 'seed_leo',
+    title: 'Cracking CS Internship Interviews',
+    instructor: 'Alex Chen',
+    description: 'Mock technical interview session covering LeetCode patterns, behavioral questions, and how to structure your answers.',
+    googleMeetLink: 'https://meet.google.com/crk-int-rvw',
+    scheduledAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
+    duration: '90 mins',
+    topic: 'Career',
+    createdBy: 'seed_alex',
   },
 ]
 
@@ -179,17 +223,15 @@ export async function seedDatabase() {
     }
     console.log('✅ Help posts seeded')
 
-    // Seed events
-    for (const event of SEED_EVENTS) {
-      await addDoc(collection(db, 'events'), { ...event, createdAt: serverTimestamp() })
+    // Seed masterclasses
+    for (const cls of SEED_MASTERCLASSES) {
+      await addDoc(collection(db, 'masterclasses'), {
+        ...cls,
+        scheduledAt: Timestamp.fromDate(cls.scheduledAt),
+        createdAt:   serverTimestamp(),
+      })
     }
-    console.log('✅ Events seeded')
-
-    // Seed mentorship slots
-    for (const slot of SEED_MENTORSHIP) {
-      await addDoc(collection(db, 'mentorshipSlots'), { ...slot, createdAt: serverTimestamp() })
-    }
-    console.log('✅ Mentorship slots seeded')
+    console.log('✅ Masterclasses seeded')
 
     // Seed success stories
     for (const story of SEED_STORIES) {

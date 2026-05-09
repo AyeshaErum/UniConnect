@@ -2,19 +2,18 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Helper: is the requester authenticated?
     function isAuth() {
       return request.auth != null;
     }
 
-    // Helper: is the requester the owner of this document?
     function isOwner(uid) {
       return isAuth() && request.auth.uid == uid;
     }
 
     // ── Users ──────────────────────────────────────────────────
+    // Any authenticated user can read profiles (needed for tutor discovery)
     match /users/{userId} {
-      allow read:  if isAuth();
+      allow read:   if isAuth();
       allow create: if isOwner(userId);
       allow update: if isOwner(userId);
       allow delete: if isOwner(userId);
@@ -24,7 +23,7 @@ service cloud.firestore {
     match /helpPosts/{postId} {
       allow read:   if isAuth();
       allow create: if isAuth();
-      allow update: if isAuth(); // upvotes, resolve — anyone auth'd
+      allow update: if isAuth();
       allow delete: if isAuth() && resource.data.authorId == request.auth.uid;
 
       match /replies/{replyId} {
@@ -35,25 +34,15 @@ service cloud.firestore {
       }
     }
 
-    // ── Events ─────────────────────────────────────────────────
-    match /events/{eventId} {
+    // ── Masterclasses ──────────────────────────────────────────
+    match /masterclasses/{classId} {
       allow read:   if isAuth();
       allow create: if isAuth();
-      allow update: if isAuth(); // RSVP, edit
-      allow delete: if isAuth() && resource.data.creatorId == request.auth.uid;
-    }
-
-    // ── Mentorship Slots ───────────────────────────────────────
-    match /mentorshipSlots/{slotId} {
-      allow read:   if isAuth();
-      allow create: if isAuth();
-      allow update: if isAuth();
-      allow delete: if isAuth() && resource.data.mentorId == request.auth.uid;
+      allow update, delete: if isAuth() && resource.data.createdBy == request.auth.uid;
     }
 
     // ── Messages ───────────────────────────────────────────────
     match /messages/{conversationId} {
-      // Only conversation participants can read/write
       allow read, write: if isAuth() &&
         request.auth.uid in resource.data.participants;
       allow create: if isAuth() &&
@@ -74,8 +63,13 @@ service cloud.firestore {
     match /successStories/{storyId} {
       allow read:   if isAuth();
       allow create: if isAuth();
-      allow update: if isAuth(); // likes
+      allow update: if isAuth();
       allow delete: if isAuth() && resource.data.authorId == request.auth.uid;
+    }
+
+    // ── Leaderboard (read-only derived from helpPosts + users) ─
+    match /helpPosts/{postId} {
+      allow read: if isAuth();
     }
   }
 }

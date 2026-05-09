@@ -15,6 +15,7 @@ export default function Messages() {
   const [active, setActive]   = useState(null)
   const [showChat, setShowChat] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [prefill, setPrefill] = useState(null)
 
   /* Real-time conversation list */
   useEffect(() => {
@@ -31,10 +32,12 @@ export default function Messages() {
     const openId = location.state?.openUserId
     if (!openId || !user) return
 
+    const msg = location.state?.prefillMessage || null
     getOrCreateConversation(user.uid, openId).then(convId => {
       const existing = convos.find(c => c.id === convId)
       const conv = existing || { id: convId, participants: [user.uid, openId] }
       setActive(conv)
+      setPrefill(msg)
       setShowChat(true)
     })
   // convos intentionally excluded so this only fires when the state arrives
@@ -79,7 +82,8 @@ export default function Messages() {
         {active ? (
           <ChatWindow
             conversation={active}
-            onBack={() => { setShowChat(false); setActive(null) }}
+            onBack={() => { setShowChat(false); setActive(null); setPrefill(null) }}
+            prefillMessage={prefill}
           />
         ) : (
           /* Empty state */

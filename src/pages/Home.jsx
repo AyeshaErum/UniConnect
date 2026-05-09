@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
-  Users, HelpCircle, Calendar, GraduationCap, MessageSquare,
+  Users, HelpCircle, GraduationCap, MessageSquare,
   Trophy, Star, ArrowRight, Zap, Database, TrendingUp, BookOpen,
 } from 'lucide-react'
 import { motion } from 'framer-motion'
@@ -18,13 +18,12 @@ import { cn } from '../lib/utils'
 import toast from 'react-hot-toast'
 
 const SECTIONS = [
-  { to: '/discover',        icon: Users,         label: 'Discover Students', desc: 'Filter by major, skills & availability', color: 'primary' },
-  { to: '/help-board',      icon: HelpCircle,    label: 'Help Board',        desc: 'Ask questions, get answers fast',         color: 'warning' },
-  { to: '/events',          icon: Calendar,      label: 'Events',            desc: 'Study groups, workshops & hackathons',     color: 'destructive' },
-  { to: '/mentorship',      icon: GraduationCap, label: 'Mentorship',        desc: 'Learn from seniors in your field',         color: 'secondary' },
-  { to: '/messages',        icon: MessageSquare, label: 'Messages',          desc: 'Real-time chat with connections',          color: 'success' },
-  { to: '/leaderboard',     icon: Trophy,        label: 'Leaderboard',       desc: 'Top helpers on campus',                    color: 'warning' },
-  { to: '/success-stories', icon: Star,          label: 'Success Stories',   desc: 'Inspiration from your peers',              color: 'primary' },
+  { to: '/discover',        icon: Users,         label: 'Discover',        desc: 'Find tutors by course or browse students',  color: 'primary' },
+  { to: '/help-board',      icon: HelpCircle,    label: 'Help Board',      desc: 'Ask questions, get answers fast',           color: 'warning' },
+  { to: '/masterclasses',   icon: GraduationCap, label: 'Masterclasses',   desc: 'Join live learning sessions',               color: 'secondary' },
+  { to: '/messages',        icon: MessageSquare, label: 'Messages',        desc: 'Real-time chat with connections',           color: 'success' },
+  { to: '/leaderboard',     icon: Trophy,        label: 'Leaderboard',     desc: 'Top helpers on campus',                     color: 'warning' },
+  { to: '/success-stories', icon: Star,          label: 'Success Stories', desc: 'Inspiration from your peers',               color: 'primary' },
 ]
 
 const colorMap = {

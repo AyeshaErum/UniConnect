@@ -8,6 +8,7 @@ import { MAJORS, YEARS, AVAILABILITY_OPTIONS, SKILL_TAGS } from '../../utils/con
 import { updateUserProfile } from '../../firebase/firestore'
 import { uploadProfilePhoto } from '../../firebase/storage'
 import { useAuth } from '../../context/AuthContext'
+import { trackProfileCompleted } from '../../utils/analytics'
 import { Separator } from '../ui/Separator'
 import toast from 'react-hot-toast'
 
@@ -60,6 +61,7 @@ export default function EditProfileForm({ onClose }) {
     try {
       await updateUserProfile(user.uid, form)
       await refreshProfile()
+      if (form.major && form.year) trackProfileCompleted(form.major, form.year)
       toast.success('Profile saved!')
       onClose()
     } catch { toast.error('Save failed') }

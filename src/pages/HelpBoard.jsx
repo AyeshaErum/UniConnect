@@ -10,6 +10,7 @@ import PageWrapper from '../components/layout/PageWrapper'
 import { subscribeHelpPosts, createHelpPost } from '../firebase/firestore'
 import { useAuth } from '../context/AuthContext'
 import { HELP_TAGS } from '../utils/constants'
+import { trackHelpPostCreated } from '../utils/analytics'
 import { staggerContainer, staggerItem } from '../lib/motion'
 import { cn } from '../lib/utils'
 import toast from 'react-hot-toast'
@@ -144,6 +145,7 @@ function CreatePostForm({ onClose }) {
     setLoading(true)
     try {
       await createHelpPost({ ...form, authorId: user.uid })
+      trackHelpPostCreated(form.tags)
       toast.success('Post created!')
       onClose()
     } catch { toast.error('Failed to post') }
